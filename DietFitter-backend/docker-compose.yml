@@ -1,0 +1,6 @@
+﻿services:
+  dietfitter-backend:
+    image: dietfitter-backend
+    build:
+      context: .
+      dockerfile: DietFitter-backend/Dockerfile

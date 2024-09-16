@@ -1,0 +1,31 @@
+﻿# Build Folders (Bin, Obj, etc)
+**/[Bb]in/
+**/[Oo]bj/
+**/[Ll]og/
+
+# Rider specific files
+.idea/
+.idea_modules/
+*.sln.iml
+*.suo
+
+# Visual Studio specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+*.pidb
+*.pdb
+*.mdb
+*.opendb
+
+# Test results
+TestResult.xml
+*.trx
+*.coverage
+
+# Log files
+*.log
