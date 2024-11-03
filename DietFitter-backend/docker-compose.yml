@@ -1,6 +1,28 @@
-﻿services:
-  dietfitter-backend:
-    image: dietfitter-backend
-    build:
-      context: .
-      dockerfile: DietFitter-backend/Dockerfile
+﻿version: '3.8'
+
+services:
+#  dietfitter-backend:
+#    image: dietfitter-backend
+#    build:
+#      context: .
+#      dockerfile: DietFitter-backend/Dockerfile
+#    ports:
+#      - "5000:5000"
+#    environment:
+#      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=DietFitterDB;Username=postgres;Password=postgres
+#    depends_on:
+#      - postgres-db
+
+  postgres-db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=DietFitterDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
