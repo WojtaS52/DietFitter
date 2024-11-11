@@ -58,7 +58,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication();
-builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme); // Add this line to enable cookie authentication
+builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme)
+    .AddBearerToken(IdentityConstants.BearerScheme);
+    
+
+// Add this line to enable cookie authentication
 
 builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
