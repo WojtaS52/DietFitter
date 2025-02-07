@@ -1,73 +1,70 @@
-// // import { useState } from 'react'
-// // import reactLogo from './assets/react.svg'
-// // import viteLogo from '/vite.svg'
-// import './App.css'
-// // import Header from './Header'
-// import SignIn from './pages/mui/SignIn'
-
-// function App() {
-  
-//   return ( 
-//     // <Header></Header>
-//     <SignIn></SignIn>
-//   );
-// }
-// export default App
-
-
-
-// // function App() {
-// //   const [count, setCount] = useState(0)
-
-// //   return (
-// //     <>
-// //       <div>
-// //         <a href="https://vitejs.dev" target="_blank">
-// //           <img src={viteLogo} className="logo" alt="Vite logo" />
-// //         </a>
-// //         <a href="https://react.dev" target="_blank">
-// //           <img src={reactLogo} className="logo react" alt="React logo" />
-// //         </a>
-// //       </div>
-// //       <h1>Vite + React</h1>
-// //       <div className="card">
-// //         <button onClick={() => setCount((count) => count + 1)}>
-// //           count is {count}
-// //         </button>
-// //         <p>
-// //           Edit <code>src/App.tsx</code> and save to test HMR
-// //         </p>
-// //       </div>
-// //       <p className="read-the-docs">
-// //         Click on the Vite and React logos to learn more
-// //       </p>
-// //     </>
-// //   )
-// // }
-
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+// import { Navigate } from 'react-router-dom';
 import './App.css';
-// import SignIn from './pages/mui/sign-in/SignIn';
+import HomePage from './pages/home_page'; 
 import SignIn from './pages/mui/SignIn';
 import SignUp from './pages/mui/sign-up/SignUp';
-// import ForgotPassword from './pages/mui/forgot-password/ForgotPassword';
+import ProfilePage from './pages/profile_page';
+import SettingsPage from './pages/SettingsPage';
+import { Layout } from './pages/layout';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from './utils/AuthProvider';
+import { ReactNode } from 'react';
+import { CssBaseline } from '@mui/material';
+import DietPage from './pages/dietPage';
+import WelcomePage from './pages/WelcomePage';
 
-function App() {
+const queryClient = new QueryClient();
+
+function AppWithProviders({ children }: { children: ReactNode }) {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/signin" replace />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
-        {/* Optional for 404 handling */}
-        {/* <Route path="*" element={<NotFound />} /> */}
-      </Routes>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>{children}</AuthProvider>
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      </QueryClientProvider>
     </BrowserRouter>
   );
 }
 
+function App() {
+  return (
+    <AppWithProviders>
+      {/* <Toaster /> */}
+      <CssBaseline />
+      <Routes>
+        {/* <Toaster /> */}
+        {/* Przekierowanie z "/" na "/home" */}
+        {/* <Route path="/" element={<Navigate to="/home" replace />} /> */}
+        {/* Strona główna  */}
+        <Route path="/" element={<HomePage />} />
+        
+        {/* Logowanie */}
+        <Route path="/signin" element={<SignIn />} />
+        {/* Rejestracja */}
+        <Route path="/signup" element={<SignUp />} />
+        {/* <Route path="/welcome" element={<WelcomePage />} /> */}
+
+
+        {/* Authenticated routes */}
+        <Route element={<ProtectedRoute children={<Layout />} />}>
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/diet" element={<DietPage />} />
+          <Route path="/welcome" element={<WelcomePage />} />
+        </Route>
+      </Routes>
+
+        
+
+
+    </AppWithProviders>
+  );
+}
+
 export default App;
+
 
 
 

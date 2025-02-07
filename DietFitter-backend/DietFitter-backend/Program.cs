@@ -1,68 +1,31 @@
-// using Microsoft.AspNetCore.Mvc.Formatters;
-//
-// var builder = WebApplication.CreateBuilder(args);
-//
-// // Add services to the container.
-// // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-// builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
-//
-// var app = builder.Build();
-//
-// // Configure the HTTP request pipeline.
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseSwagger();
-//     app.UseSwaggerUI();
-// }
-//
-// app.UseHttpsRedirection();
-//
-// var summaries = new[]
-// {
-//     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-// };
-//
-// app.MapGet("/weatherforecast", () =>
-//     {
-//         var forecast = Enumerable.Range(1, 5).Select(index =>
-//                 new WeatherForecast
-//                 (
-//                     DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-//                     Random.Shared.Next(-20, 55),
-//                     summaries[Random.Shared.Next(summaries.Length)]
-//                 ))
-//             .ToArray();
-//         return forecast;
-//     })
-//     .WithName("GetWeatherForecast")
-//     .WithOpenApi();
-//
-//
-// app.Run();
-// Console.WriteLine("Hello, World!");
-//
-// record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-// {
-//     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-// }
-
 using System.Security.Claims;
 using DietFitter_backend.Database;
 using DietFitter_backend.Extensions;
+using DietFitter_backend.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using DietFitter_backend.Services; 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthorization();
-// builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme)
-//     .AddBearerToken(IdentityConstants.BearerScheme);
 
-//
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") 
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials(); 
+    });
+});
+
+builder.Services.AddControllers(); 
+
+builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
@@ -70,35 +33,45 @@ builder.Services.AddAuthentication(options =>
     })
     .AddCookie(IdentityConstants.ApplicationScheme)
     .AddBearerToken(IdentityConstants.BearerScheme);
-    
-
-// Add this line to enable cookie authentication
 
 builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddApiEndpoints();
 
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<UserStatsService>();
+builder.Services.AddScoped<AlgorithmService>();
+builder.Services.AddScoped<FoodProductRepository>();
+builder.Services.AddScoped<UserDietRecommendationRepository>();
+
 WebApplication app = builder.Build();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    
     app.ApplyMigrations();
 }
-// Protected endpoint
+
+app.UseCors("AllowFrontend");
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers(); 
+
+
+// Przykładowy endpoint chroniony
 app.MapGet("users/me", async (ClaimsPrincipal claims, ApplicationDbContext context) =>
     {
         string userId = claims.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        
         return await context.Users.FindAsync(userId);
     }
-
 ).RequireAuthorization();
 
-app.UseHttpsRedirection();
 app.MapIdentityApi<User>();
 app.Run();
