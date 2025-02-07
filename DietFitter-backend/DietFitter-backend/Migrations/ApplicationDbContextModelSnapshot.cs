@@ -23,6 +23,78 @@ namespace DietFitter_backend.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("DietFitter_backend.DTO.UserDietDto", b =>
+                {
+                    b.Property<string>("Food")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Grams")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("ProvidedValue")
+                        .HasColumnType("double precision");
+
+                    b.ToTable("UserDietDto", "identity");
+                });
+
+            modelBuilder.Entity("DietFitter_backend.Database.FoodProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Calcium")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Calories")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Carbs")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Fat")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("GlycemicIndex")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Iron")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Magnesium")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Potassium")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Protein")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Sodium")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("VitaminD")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Zinc")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FoodProducts", "identity");
+                });
+
             modelBuilder.Entity("DietFitter_backend.Database.User", b =>
                 {
                     b.Property<string>("Id")
@@ -35,6 +107,9 @@ namespace DietFitter_backend.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -42,9 +117,21 @@ namespace DietFitter_backend.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("text");
+
+                    b.Property<double?>("Height")
+                        .HasColumnType("double precision");
+
                     b.Property<string>("Initials")
                         .HasMaxLength(5)
                         .HasColumnType("character varying(5)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -79,6 +166,9 @@ namespace DietFitter_backend.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<double?>("Weight")
+                        .HasColumnType("double precision");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -89,6 +179,92 @@ namespace DietFitter_backend.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", "identity");
+                });
+
+            modelBuilder.Entity("DietFitter_backend.Database.UserDietRecommendation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DietJson")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("Problem")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SelectedCategory")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserDietRecommendations", "identity");
+                });
+
+            modelBuilder.Entity("DietFitter_backend.Database.UserStats", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<float?>("BMI")
+                        .HasColumnType("real");
+
+                    b.Property<string>("BloodPressure")
+                        .HasMaxLength(7)
+                        .HasColumnType("character varying(7)");
+
+                    b.Property<float?>("BloodSugar")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("Calcium")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("Cholesterol")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<float?>("Iron")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("Magnesium")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("Potassium")
+                        .HasColumnType("real");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float?>("VitaminD")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("Weight")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("Zinc")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserStats", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -221,6 +397,17 @@ namespace DietFitter_backend.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", "identity");
+                });
+
+            modelBuilder.Entity("DietFitter_backend.Database.UserStats", b =>
+                {
+                    b.HasOne("DietFitter_backend.Database.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
