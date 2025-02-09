@@ -11,7 +11,7 @@ const ModeSwitcher = () => {
         if (darkMode) {
           document.body.classList.add("dark");
         //   localStorage.setItem("darkMode", "true");
-        } else {
+        } else { 
           document.body.classList.remove("dark");
         //   localStorage.setItem("darkMode", "false");
         }
@@ -24,7 +24,7 @@ const ModeSwitcher = () => {
       }
       return (
         <button onClick={handleModeChange} className="mode-switcher-button">
-          {darkMode ? "☀️ Jasny" : "🌙 Nocny"}
+          {darkMode ? " Jasny" : " Nocny"}
         </button>
       );
 

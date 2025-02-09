@@ -1,4 +1,7 @@
 using DietFitter_backend.Database;
+using DietFitter_backend.DTO;
+using DietFitter_backend.Database;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace DietFitter_backend.Repositories
@@ -18,12 +21,15 @@ namespace DietFitter_backend.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<UserDietRecommendation?> GetLastRecommendation(string userId)
+        public async Task<List<UserDietRecommendation>> GetUserRecommendations(string userId, int limit = 5)
         {
             return await _context.UserDietRecommendations
                 .Where(r => r.UserId == userId)
+                .Include(r => r.Meals)
+                    .ThenInclude(m => m.Items)
                 .OrderByDescending(r => r.Date)
-                .FirstOrDefaultAsync();
+                .Take(limit)
+                .ToListAsync();
         }
     }
 }

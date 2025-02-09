@@ -43,9 +43,9 @@ export const changeUserDetails = async (data: {
   dateOfBirth: Date | null;
 }) => axiosClient.post("/api/userdetails/change-details", data);
 
-export const getLastUserRecommendation = async (userId: string) => {
-  return await axios.get(`/api/algorithm/last-recommendation/${userId}`);
-};
+// export const getLastUserRecommendation = async (userId: string) => {
+//   return await axios.get(`/api/algorithm/last-recommendation/${userId}`);
+// };
 
 export const createRecommendation = async (data: {
   userId: string;
@@ -53,4 +53,22 @@ export const createRecommendation = async (data: {
   userHeight?: number;
   selectedCondition: string;
   preferredCategory?: string;
-}) => axiosClient.post("/api/algorithm/recommend-diet", data);
+}) => axiosClient.post("/api/DietRecommendation/recommend-diet", data);
+
+export const likeRecommendation = async (recommendationId: number) =>
+  axiosClient.post(`/api/UserDietRecommendation/like/${recommendationId}`);
+
+export const getRecommendationLikes = async () =>
+  axiosClient.get(`/api/UserDietRecommendation/liked`);
+
+export const getLastUserRecommendation = async (userId: string) => {
+  return await axiosClient.get(
+    `/api/UserDietRecommendation/user-last-recommendation/${userId}`
+  );
+};
+
+export const getUserRecommendations = (userId: string, limit: number = 5) => {
+  return axiosClient.get(
+    `/api/DietRecommendation/user-recommendations/${userId}?limit=${limit}`
+  );
+};

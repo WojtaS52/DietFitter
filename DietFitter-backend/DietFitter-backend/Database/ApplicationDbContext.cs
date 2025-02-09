@@ -1,7 +1,13 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using DietFitter_backend.DTO;
+using DietFitter_backend.Models;
+
 namespace DietFitter_backend.Database;
+
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 public class ApplicationDbContext :IdentityDbContext<User>
 {
@@ -14,8 +20,10 @@ public class ApplicationDbContext :IdentityDbContext<User>
     //public DbSet<UserStats> UserStats { get; set; } // Rejestracja nowej tabeli w bazie danych
     public DbSet<UserStats> UserStats { get; set; } 
     public DbSet<FoodProduct> FoodProducts { get; set; }
-    
+    public DbSet<Meal> Meals { get; set; }  
+    public DbSet<MealItem> MealItems { get; set; } 
     public DbSet<UserDietRecommendation> UserDietRecommendations { get; set; }
+    public DbSet<UserLikedRecommendation> UserLikedRecommendations { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -35,12 +43,25 @@ public class ApplicationDbContext :IdentityDbContext<User>
                     .HasForeignKey(us => us.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
         
-        builder.Entity<UserDietDto>().HasNoKey();
-        
         builder.Entity<UserDietRecommendation>()
-                .Property(r => r.DietJson)
-                .HasColumnType("jsonb");
-        
+                   .HasMany(r => r.Meals)
+                   .WithOne(m => m.Recommendation)
+                   .HasForeignKey(m => m.RecommendationId)
+                   .OnDelete(DeleteBehavior.Cascade); 
+           
+       builder.Entity<Meal>()
+           .HasMany(m => m.Items)
+           .WithOne(i => i.Meal)
+           .HasForeignKey(i => i.MealId)
+           .OnDelete(DeleteBehavior.Cascade);
+       
+       
+       builder.Entity<UserLikedRecommendation>()
+           .HasOne(lr => lr.Recommendation)
+           .WithMany()
+           .HasForeignKey(lr => lr.RecommendationId)
+           .OnDelete(DeleteBehavior.Cascade);
+
     }
     
 }

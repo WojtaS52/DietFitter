@@ -1,11 +1,9 @@
 namespace DietFitter_backend.DTO
 {
-    
-    public class UserDietDto
+    public class MealItemDto
     {
         public string Food { get; set; } = string.Empty;
         public double Grams { get; set; }
         public double ProvidedValue { get; set; }
-        public string MealType { get; set; } = string.Empty;
     }
 }

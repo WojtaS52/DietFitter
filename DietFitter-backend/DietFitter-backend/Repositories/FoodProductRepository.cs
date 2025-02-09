@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DietFitter_backend.Repositories
 {
-    public class FoodProductRepository 
+    public class FoodProductRepository : IFoodProductRepository
     {
         
         private readonly ApplicationDbContext _context;

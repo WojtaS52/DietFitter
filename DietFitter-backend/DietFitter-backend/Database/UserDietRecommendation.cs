@@ -11,15 +11,40 @@ namespace DietFitter_backend.Database
         public string Problem { get; set; } = string.Empty;
         public string SelectedCategory { get; set; } = "Wszystkie";
         public DateTime Date { get; set; } = DateTime.UtcNow;
-        //public List<UserDietDto> Diet { get; set; } = new List<UserDietDto>();
-        public string DietJson { get; set; } = string.Empty;
         
         [NotMapped]
-        public List<UserDietDto> Diet 
+        public List<Meal> Meals { get; set; } = new();
+/*
+        public string MealsJson
         {
-             get => string.IsNullOrEmpty(DietJson) ? new List<UserDietDto>() : JsonSerializer.Deserialize<List<UserDietDto>>(DietJson) ?? new List<UserDietDto>();
-             set => DietJson = JsonSerializer.Serialize(value);
+            get => JsonSerializer.Serialize(Meals);
+            set => Meals = JsonSerializer.Deserialize<List<Meal>>(value) ?? new List<Meal>();
+        }*/
+        public string MealsJson
+        {
+            get => JsonSerializer.Serialize(Meals);
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    Meals = new List<Meal>(); 
+                }
+                else
+                {
+                    try
+                    {
+                        Meals = JsonSerializer.Deserialize<List<Meal>>(value) ?? new List<Meal>();
+                    }
+                    catch (JsonException)
+                    {
+                        Meals = new List<Meal>(); 
+                    }
+                }
+            }
         }
+
+    
+    
         
     }
 }

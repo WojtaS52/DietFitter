@@ -63,34 +63,24 @@ const Settings = () => {
       setSnackbarType("error");
       return;
     }
-
-    try {
-      const response = await changePassword({ oldPassword, newPassword });
-      if (response.status !== 200) {
-        throw new Error("Błąd podczas zmiany hasła");
-      }
-      setSnackbarMessage("Hasło zostało zmienione pomyślnie!");
-      setSnackbarType("success");
-    } catch (error) {
-      console.error("Błąd podczas zmiany hasła:", error);
-      setSnackbarMessage("Nie udało się zmienić hasła. Spróbuj ponownie.");
-      setSnackbarType("error");
+    const response = await changePassword({ oldPassword, newPassword });
+    if (response.status !== 200) {
+      throw new Error("Błąd podczas zmiany hasła");
     }
+    setSnackbarMessage("Hasło zostało zmienione pomyślnie!");
+    setSnackbarType("success");
+    
   };
 
   const handleChangeEmail = async (newEmail: string) => {
-    try {
-      const response = await changeEmail({ newEmail: newEmail });
-      if (response.status !== 200) {
-        throw new Error("Błąd podczas zmiany e-maila");
-      }
-      setSnackbarMessage("E-mail został zmieniony pomyślnie!");
-      setSnackbarType("success");
-    } catch (error) {
-      console.error("Błąd podczas zmiany e-maila:", error);
-      setSnackbarMessage("Nie udało się zmienić e-maila. Spróbuj ponownie.");
-      setSnackbarType("error");
+    
+    const response = await changeEmail({ newEmail: newEmail });
+    if (response.status !== 200) {
+      throw new Error("Błąd podczas zmiany e-maila");
     }
+    setSnackbarMessage("E-mail został zmieniony pomyślnie!");
+    setSnackbarType("success");
+    
   };
 
   const handleChangeUserData = async () => {
@@ -146,18 +136,14 @@ const handleChangeUserDetails = async () => {
     setActiveForm((prev) => (prev === form ? null : form));
 
     if (form === "changeEmail") {
-      try {
-        const response = await currentEmail();
-        if (response.status === 200) {
-          setEmail(response.data.email);
-        } else {
-          throw new Error("Nie udało się pobrać obecnego e-maila.");
-        }
-      } catch (error) {
-        console.error("Błąd podczas pobierania obecnego e-maila:", error);
-        setSnackbarMessage("Nie udało się pobrać obecnego e-maila.");
-        setSnackbarType("error");
+      
+      const response = await currentEmail();
+      if (response.status === 200) {
+        setEmail(response.data.email);
+      } else {
+        throw new Error("Nie udało się pobrać obecnego e-maila.");
       }
+      
     }
   };
 
@@ -321,7 +307,7 @@ const handleChangeUserDetails = async () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-blue-500">
+    <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100">
       <div className="w-full max-w-3xl bg-white p-8 rounded shadow-lg">
         <div className="flex flex-wrap gap-4 justify-center sm:flex-nowrap">
           <button
@@ -361,9 +347,7 @@ const handleChangeUserDetails = async () => {
         </div>
         {renderForm()}
       </div>
-      {/* <div>
-        <ModeSwitcher />
-      </div> */}
+     
       {snackbarMessage && (
         <CustomSnackbar message={snackbarMessage} type={snackbarType} onClose={handleSnackbarClose} />
       )}

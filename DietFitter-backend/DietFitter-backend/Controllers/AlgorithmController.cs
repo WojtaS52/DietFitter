@@ -22,8 +22,8 @@ public class AlgorithmController : ControllerBase
     }
     
     
-    [HttpPost("recommend-diet")]
-    public async Task<IActionResult> CreateDietRecommendation([FromBody] DietRequest request)
+  /*  [HttpPost("recommend-diet")]
+    public async Task<IActionResult> CreateDietAlgorithResult([FromBody] DietRequest request)
     {
         if (request == null)
         {
@@ -55,8 +55,8 @@ public class AlgorithmController : ControllerBase
         await _userDietRecommendationRepository.SaveRecommendation(formatRecomendation);
         
         return Ok(recommendation);
-    }
-
+    }*/
+/*
     [HttpGet("last-recommendation/{userId}")]
     public async Task<IActionResult> GetLastUserRecommendation(string userId)
     {
@@ -73,5 +73,5 @@ public class AlgorithmController : ControllerBase
         }
 
         return Ok(recommendation);
-    }
+    }*/
 }

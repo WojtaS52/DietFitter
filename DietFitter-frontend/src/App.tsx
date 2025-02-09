@@ -6,6 +6,7 @@ import SignIn from './pages/mui/SignIn';
 import SignUp from './pages/mui/sign-up/SignUp';
 import ProfilePage from './pages/profile_page';
 import SettingsPage from './pages/SettingsPage';
+import RecommendationPage from './pages/recommendationPage';
 import { Layout } from './pages/layout';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -53,6 +54,7 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/diet" element={<DietPage />} />
           <Route path="/welcome" element={<WelcomePage />} />
+          <Route path="/recommendations" element={<RecommendationPage />} />
         </Route>
       </Routes>
 

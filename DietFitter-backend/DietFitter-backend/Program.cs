@@ -23,7 +23,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers(); 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(options =>
@@ -44,7 +48,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<UserStatsService>();
 builder.Services.AddScoped<AlgorithmService>();
+builder.Services.AddScoped<DietRecommendationService>();
 builder.Services.AddScoped<FoodProductRepository>();
+builder.Services.AddScoped<IFoodProductRepository, FoodProductRepository>();
 builder.Services.AddScoped<UserDietRecommendationRepository>();
 
 WebApplication app = builder.Build();

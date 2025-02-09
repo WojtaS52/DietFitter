@@ -33,7 +33,7 @@ namespace DietFitter_backend.Services
             }
             else if (temp == "niedowaga")
             {
-                filtratedFood = filtratedFood.Where(f => f.Calories > 400 && f.Protein > 14).OrderByDescending(f => f.Protein ).ThenBy(f => f.Calories).ToList();
+                filtratedFood = filtratedFood.Where(f => f.Calories > 200 && f.Protein > 14).OrderByDescending(f => f.Protein ).ThenBy(f => f.Calories).ToList();
             }
             else if (temp == "cukrzyca")
             {

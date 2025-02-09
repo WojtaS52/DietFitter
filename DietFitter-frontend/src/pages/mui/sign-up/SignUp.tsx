@@ -67,39 +67,32 @@ export default function SignUp() {
       password,
     };
 
-    try {
-      const response = await fetch('http://localhost:5000/register', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-        credentials: 'include',
-      });
+    
+    const response = await fetch('http://localhost:5000/register', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+      credentials: 'include',
+    });
 
-      if (!response.ok) {
-        const error = await response.text();
-        throw new Error(`Register failed: ${response.status} - ${error}`);
-      }
-
-      setSnackbar({
-        open: true,
-        message: 'Rejestracja zakończona sukcesem. Możesz się teraz zalogować.',
-        severity: 'success',
-      });
-
-      setTimeout(() => {
-        navigate('/home');
-      }, 2000); // 2 sekundy
-    } catch (error) {
-      console.error('Error:', error);
-      setSnackbar({
-        open: true,
-        message: 'Rejestracja nie powiodła się. Sprawdź dane i spróbuj ponownie.',
-        severity: 'error',
-      });
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(`Register failed: ${response.status} - ${error}`);
     }
+
+    setSnackbar({
+      open: true,
+      message: 'Rejestracja zakończona sukcesem. Możesz się teraz zalogować.',
+      severity: 'success',
+    });
+
+    setTimeout(() => {
+      navigate('/');
+    }, 2000);
+    
   };
  
 

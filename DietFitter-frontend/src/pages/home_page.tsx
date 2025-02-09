@@ -12,13 +12,12 @@ const HomePage: React.FC = () => {
       <Navbar2 />
       <Box
         sx={{
-          paddingTop: "64px", // Wysokość AppBar
+          paddingTop: "64px", 
           textAlign: "center",
-          backgroundColor: "#f4f4f4", // Kolor tła strony
+          backgroundColor: "#f4f4f4",
           minHeight: "100vh",
         }}
       >
-        {/* Nagłówek */}
         <Typography
           variant="h3"
           fontWeight="bold"
@@ -33,16 +32,16 @@ const HomePage: React.FC = () => {
           Tutaj znajdziesz wsparcie w doborze diety idealnej dla Ciebie.
         </Typography>
 
-        {/* Karty: Logowanie i Rejestracja */}
+        
         <Box
           sx={{
             display: "flex",
             justifyContent: "center",
             gap: "2rem",
-            flexWrap: "wrap", // Dzięki temu na mniejszych ekranach karty są jedna pod drugą
+            flexWrap: "wrap",
           }}
         >
-          {/* Karta Logowania */}
+          
           <Paper
             elevation={3}
             sx={{
@@ -52,7 +51,7 @@ const HomePage: React.FC = () => {
               cursor: "pointer",
               borderRadius: "8px",
               "&:hover": {
-                backgroundColor: "#e6f7e6", // Jasnozielone tło na hover
+                backgroundColor: "#e6f7e6", 
               },
               transition: "background-color 0.3s ease",
             }}
@@ -64,7 +63,6 @@ const HomePage: React.FC = () => {
             </Typography>
           </Paper>
 
-          {/* Karta Rejestracji */}
           <Paper
             elevation={3}
             sx={{

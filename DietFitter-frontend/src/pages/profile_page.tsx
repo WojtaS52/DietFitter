@@ -23,31 +23,30 @@ export default function ProfilePage() {
   const [previousValues, setPreviousValues] = useState<{ date: string; value: number }[]>([]);
   const [monitoringError, setMonitoringError] = useState<string | null>(null);
 
-  const monitoringLabelsChart: Record<string, string> = {
-    bloodSugar: 'Poziom cukru',
-    magnesium: 'Poziom magnezu',
-    iron: 'Poziom żelaza',
-    cholesterol: 'Poziom cholesterolu',
-    potassium: 'Poziom potasu',
-    zinc: 'Poziom cynku',
-    calcium: 'Poziom wapnia',
-    bloodPressure: 'Ciśnienie tętnicze',
-    weight: 'Waga',
+  const normsParameters: Record<string, { min: number; max: number }> = {
+    bloodSugar: { min: 70, max: 100 },      
+    magnesium: { min: 1.8, max: 2.3 },      
+    iron: { min: 60, max: 160 },            
+    cholesterol: { min: 140, max: 200 },    
+    potassium: { min: 3.5, max: 5.0 },      
+    zinc: { min: 0.66, max: 1.10 },        
+    calcium: { min: 8.5, max: 10.5 },       
+    bloodPressure: { min: 120, max: 80 },   
+    weight: { min: 50, max: 100 },          
   };
 
-  const normsParameters: Record<string, { min: number; max: number }> = { 
-
-    bloodSugar: { min: 70, max: 100 },      //podane w mg/dl
-    magnesium: { min: 1.8, max: 2.3 },      //podane w mg/dl
-    iron: { min: 60, max: 160 },            //podane w ug/dl
-    cholesterol: { min: 140, max: 200 },    //podane w mg/dl
-    potassium: { min: 3.5, max: 5.0 },      //podane w mmol/l
-    zinc: { min: 0.66, max: 1.10 },         //podane w mg/dl
-    calcium: { min: 8.5, max: 10.5 },        //podane w mg/dl
-    bloodPressure: { min: 120, max: 80 },    //podane w mmHg
-    weight: { min: 50, max: 100 },           //podane w kg
-
+  const monitoringLabelsChart: Record<string, { label: string; unit: string }> = {
+    bloodSugar: { label: 'Poziom cukru', unit: 'mg/dl' },
+    magnesium: { label: 'Poziom magnezu', unit: 'mg/dl' },
+    iron: { label: 'Poziom żelaza', unit: 'ug/dl' },
+    cholesterol: { label: 'Poziom cholesterolu', unit: 'mg/dl' },
+    potassium: { label: 'Poziom potasu', unit: 'mmol/l' },
+    zinc: { label: 'Poziom cynku', unit: 'mg/dl' },
+    calcium: { label: 'Poziom wapnia', unit: 'mg/dl' },
+    bloodPressure: { label: 'Ciśnienie tętnicze', unit: 'mmHg' },
+    weight: { label: 'Waga', unit: 'kg' },
   };
+  
 
   const analyzeUserStats = (values: { date: string; value: number }[], parameter: string) => {
     if (values.length < 3) return "Brak wystarczających danych do analizy.";
@@ -116,29 +115,31 @@ export default function ProfilePage() {
   const fetchMonitoringData = async () => {
     if (!monitoringType) return;
 
-    
-      const response = await fetch(`http://localhost:5000/api/userstats/${monitoringType}`, {
+
+    const response = await fetch(`http://localhost:5000/api/userstats/${monitoringType}`, {
         method: 'GET',
         credentials: 'include',
-      });
+    });
 
-      if (!response.ok) {
-        throw new Error('Nie udało się pobrać danych');
-      }
+    if (!response.ok) {
+        throw new Error('nie udało się pobrać danych monitorowania');
+    }
 
-      const data = await response.json();
+    const data = await response.json();
+    const parsedData = Array.isArray(data.$values) ? data.$values : [];
+    
 
-      const filteredAndSortedData = data
-        .map((item: { date: string; [key: string]: number }) => ({
-          date: item.date,
-          value: item[monitoringType],
+    const filteredAndSortedData = parsedData
+        .map((item: { date: string; [key: string]: any }) => ({
+            date: item.date,
+            value: item[monitoringType] ?? null, 
         }))
-        .filter(entry => entry.value !== null)
+        .filter(entry => entry.value !== null) 
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-      setPreviousValues(filteredAndSortedData);
+    setPreviousValues(filteredAndSortedData);
     
-  };
+};
 
   const handleMonitoringSubmit = async () => {
     setMonitoringError(null);
@@ -153,26 +154,24 @@ export default function ProfilePage() {
       value: parameterValue,
     };
 
-    try {
-      const response = await fetch('http://localhost:5000/api/userstats', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(payload),
-      });
+    
+    const response = await fetch('http://localhost:5000/api/userstats', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(payload),
+    });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Nie udało się zapisać danych');
-      }
-
-      setParameterValue('');
-      fetchMonitoringData();
-    } catch (error) {
-      setMonitoringError('Błąd zapisu: ' + error.message);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Nie udało się zapisać danych');
     }
+
+    setParameterValue('');
+    fetchMonitoringData();
+    
   };
 
   useEffect(() => {
@@ -195,7 +194,7 @@ export default function ProfilePage() {
     labels: previousValues.map((entry) => formatter.format(new Date(entry.date))),
     datasets: [
       {
-        label: ` ${monitoringLabelsChart[monitoringType] || monitoringType}`,
+        label: `${monitoringLabelsChart[monitoringType]?.label || monitoringType} (${monitoringLabelsChart[monitoringType]?.unit || ''})`,
         data: previousValues.map((entry) => entry.value),
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -209,7 +208,15 @@ export default function ProfilePage() {
     maintainAspectRatio: false,
     plugins: {
       legend: { display: true },
-      tooltip: { mode: 'index', intersect: false },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            const unit = monitoringLabelsChart[monitoringType]?.unit || '';
+            return `${context.raw} ${unit}`;
+          },
+        },
+      },
+      
     },
     scales: {
       x: { title: { display: true, text: 'Data' } },
@@ -253,7 +260,8 @@ export default function ProfilePage() {
               >
                 <option value="">Wybierz...</option>
                 {Object.entries(monitoringLabelsChart).map(([key, label]) => (
-                  <option key={key} value={key}>{label}</option>
+                  <option key={key} value={key}>{`${label.label} (${label.unit})`}</option>
+
                 ))}
               </select>
             </label>
@@ -265,11 +273,15 @@ export default function ProfilePage() {
               <label>
                 Podaj wartość:{' '}
                 <input
-                  type="number"
-                  value={parameterValue}
-                  onChange={(e) => setParameterValue(parseFloat(e.target.value) || '')}
-                  style={{ width: '100%' }}
-                />
+                    type="number"
+                    min="0"
+                    value={parameterValue}
+                    onChange={(e) => {
+                      const value = parseFloat(e.target.value);
+                      setParameterValue(value >= 0 ? value : '');
+                    }}
+                    style={{ width: '100%' }}
+                  />
               </label>
             </div>
 

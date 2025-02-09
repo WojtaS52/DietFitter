@@ -55,6 +55,17 @@ export default function Component() {
 
         <Navbar.Link
           as={Link}
+          to="/recommendations"
+          onClick={() => setIsOpen(false)}
+          className={`nav-link text-white ${
+            location.pathname === "/recommendations" ? "active" : ""
+          }`}
+        >
+          Rekomendacje
+        </Navbar.Link>
+
+        <Navbar.Link
+          as={Link}
           to="/diet"
           onClick={() => setIsOpen(false)}
           className={`nav-link text-white ${

@@ -56,39 +56,32 @@ export default function SignIn() {
             twoFactorRecoveryCode: "string",
         };
 
-        try {
-            const response = await fetch('http://localhost:5000/login?useCookies=true&useSessionCookies=true', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-                credentials: 'include', 
-            });
+        
+        const response = await fetch('http://localhost:5000/login?useCookies=true&useSessionCookies=true', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+            credentials: 'include', 
+        });
 
-            if (!response.ok) {
-                const error = await response.text();
-                throw new Error(`Login failed: ${response.status} - ${error}`);
-            }
-
-            setSnackbar({
-                open: true,
-                message: 'Logowanie powiodło się!',
-                severity: 'success',
-            });
-
-            setTimeout(() => {
-                navigate('/profile');
-            }, 2000); 
-        } catch (error) {
-            console.error('Error:', error);
-            setSnackbar({
-                open: true,
-                message: 'Logowanie nie powiodło się. Sprawdź dane i spróbuj ponownie.',
-                severity: 'error',
-            });
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(`Login failed: ${response.status} - ${error}`);
         }
+
+        setSnackbar({
+            open: true,
+            message: 'Logowanie powiodło się!',
+            severity: 'success',
+        });
+
+        setTimeout(() => {
+            navigate('/profile');
+        }, 2000); 
+        
     };
 
     return (
