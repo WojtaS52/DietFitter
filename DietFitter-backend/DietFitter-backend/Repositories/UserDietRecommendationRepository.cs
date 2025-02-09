@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DietFitter_backend.Repositories
 {
-    public class UserDietRecommendationRepository
+    public class UserDietRecommendationRepository : IUserDietRecommendationRepository
     {
         private readonly ApplicationDbContext _context;
 

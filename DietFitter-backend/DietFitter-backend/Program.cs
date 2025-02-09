@@ -52,6 +52,7 @@ builder.Services.AddScoped<DietRecommendationService>();
 builder.Services.AddScoped<FoodProductRepository>();
 builder.Services.AddScoped<IFoodProductRepository, FoodProductRepository>();
 builder.Services.AddScoped<UserDietRecommendationRepository>();
+builder.Services.AddScoped<IUserDietRecommendationRepository, UserDietRecommendationRepository>();
 
 WebApplication app = builder.Build();
 

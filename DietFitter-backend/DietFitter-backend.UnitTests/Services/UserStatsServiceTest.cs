@@ -44,14 +44,12 @@ namespace DietFitter_backend.UnitTests.Services
         [TestMethod]
         public async Task AddUserStats_ShouldAddNewStat_ForWeight()
         {
-            // Arrange
+           
             var dto = new UserStatsDto { MonitoringType = "weight", Value = 75 };
             string userId = "user3";
 
-            // Act
             var result = await _userStatsService.AddUserStats(dto, userId);
 
-            // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(userId, result.UserId);
             Assert.AreEqual(75, result.Weight);
@@ -60,10 +58,9 @@ namespace DietFitter_backend.UnitTests.Services
         [TestMethod]
         public async Task GetUserStats_ShouldReturnUserStats()
         {
-            // Act
+
             var result = await _userStatsService.GetUserStats("user1");
 
-            // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(4, result.Count);
             Assert.IsTrue(result.All(s => s.UserId == "user1"));
@@ -78,7 +75,41 @@ namespace DietFitter_backend.UnitTests.Services
             Assert.IsNotNull(result);
             Assert.AreEqual(75, result.Weight);
         }
+        
+        [TestMethod]
+        public async Task AddUserStats_ShouldAddNewStat_ForMagnesium()
+        {
+            var dto = new UserStatsDto { MonitoringType = "magnesium", Value = 65 };
+            string userId = "user1";
 
+            var result = await _userStatsService.AddUserStats(dto, userId);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(userId, result.UserId);
+            Assert.AreEqual(65, result.Magnesium);
+        }
+        
+        [TestMethod]
+        public async Task GetUserStats_ShouldReturnEmptyList_WhenUserNotFound()
+        {
+
+            var result = await _userStatsService.GetUserStats("user999"); 
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Count); 
+        }
+        
+        [TestMethod]
+        public async Task AddUserStats_ShouldThrowException_ForInvalidMonitoringType()
+        {
+
+            var dto = new UserStatsDto { MonitoringType = "invalidType", Value = 100 };
+            string userId = "user1";
+        
+
+            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+                await _userStatsService.AddUserStats(dto, userId));
+        }
+
+        
        
     }
 }

@@ -7,10 +7,10 @@ namespace DietFitter_backend.Services
 {
     public class DietRecommendationService
     {
-        private readonly FoodProductRepository _foodProductRepository;
-        private readonly UserDietRecommendationRepository _userDietRecommendationRepository;
-
-        public DietRecommendationService(FoodProductRepository foodProductRepository, UserDietRecommendationRepository userDietRecommendationRepository)
+        private readonly IFoodProductRepository _foodProductRepository;
+        private readonly IUserDietRecommendationRepository _userDietRecommendationRepository;
+        
+        public DietRecommendationService(IFoodProductRepository foodProductRepository, IUserDietRecommendationRepository userDietRecommendationRepository)
         {
             _foodProductRepository = foodProductRepository;
             _userDietRecommendationRepository = userDietRecommendationRepository;
