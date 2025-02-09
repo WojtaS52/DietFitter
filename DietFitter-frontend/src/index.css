@@ -13,6 +13,8 @@
   -moz-osx-font-smoothing: grayscale;
   --logout-red: #DC2626;
   --primary-green: #008000;
+  --button-green: #28a745;
+  --button-green-hover: #218838;
 }
 
 body.dark-mode {
