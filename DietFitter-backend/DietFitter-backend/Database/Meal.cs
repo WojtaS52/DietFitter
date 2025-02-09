@@ -8,7 +8,7 @@ public class Meal
 
     public int RecommendationId { get; set; }
     
-    [JsonIgnore] // 🚨 Blokuje cykl w serializacji
+    [JsonIgnore]
     public UserDietRecommendation Recommendation { get; set; } = null!;
     
     public List<MealItem> Items { get; set; } = new();

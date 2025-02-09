@@ -14,12 +14,7 @@ namespace DietFitter_backend.Database
         
         [NotMapped]
         public List<Meal> Meals { get; set; } = new();
-/*
-        public string MealsJson
-        {
-            get => JsonSerializer.Serialize(Meals);
-            set => Meals = JsonSerializer.Deserialize<List<Meal>>(value) ?? new List<Meal>();
-        }*/
+
         public string MealsJson
         {
             get => JsonSerializer.Serialize(Meals);
