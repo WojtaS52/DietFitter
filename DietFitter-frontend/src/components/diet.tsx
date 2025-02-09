@@ -133,7 +133,7 @@ const Diet: React.FC = () => {
         </TextField>
         <FormControlLabel control={<Checkbox checked={isVegan} onChange={(e) => setIsVegan(e.target.checked)} sx={{
         "&.Mui-checked": {
-          color: "#28a745", 
+          color: "var(--button-green)", 
         },
       }} />} label="Dieta wegańska" />
 
@@ -160,7 +160,7 @@ const Diet: React.FC = () => {
 
             }}
           >
-            {liking ? "Polubianie rekomendacji..." : "Polub rekomendację"}
+            {liking ? "Zapisywanie rekomendacji" : "Zapisz rekomendację"}
           </Button>
           
           <Box display="flex" justifyContent="center" alignItems="center" marginTop={1} gap={2}>
@@ -181,7 +181,7 @@ const Diet: React.FC = () => {
           elevation={3}
           style={{
             padding: "16px",
-            backgroundColor: "#f9f9f9",
+            backgroundColor: "var(--diet-white)",
             width: "400px",
             alignSelf: "flex-start", 
           }}

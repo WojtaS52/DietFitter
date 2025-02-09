@@ -64,7 +64,7 @@ function Recommendation() {
     const fetchRecommendations = async () => {
     
         const response = await fetch(
-          `http://localhost:5000/api/DietRecommendation/user-recommendations/${userId}?limit=5`
+          `http://localhost:5000/api/DietRecommendation/user-recommendations/${userId}?limit=1`
         );
         if (!response.ok) throw new Error("Błąd pobierania rekomendacji");
 
@@ -104,7 +104,10 @@ function Recommendation() {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <h2 className="text-2xl font-semibold text-center mb-4">Ostatnie rekomendacje</h2>
+    {/* Dynamiczny nagłówek w zależności od showLikedOnly */}
+    <h2 className="text-2xl font-semibold text-center mb-4">
+      {showLikedOnly ? "Zapisane rekomendacje" : "Ostatnia rekomendacja"}
+    </h2>
 
       <div className="flex justify-center mb-4">
         <FormControlLabel
@@ -115,30 +118,30 @@ function Recommendation() {
               color="primary"
             />
           }
-          label="Polubione rekomendacje"
+          label="Zapisane rekomendacje"
         />
       </div>
 
       {loading ? (
-        <p className="text-center text-gray-500">Ładowanie rekomendacji...</p>
+        <p className="text-center text-[var(--recommendation-gray)]">Ładowanie rekomendacji...</p>
       ) : displayedRecommendations.length === 0 ? (
-        <p className="text-center text-gray-500">Brak rekomendacji do wyświetlenia.</p>
+        <p className="text-center text-[var(--recommendation-gray)]">Brak rekomendacji do wyświetlenia.</p>
       ) : (
         <div className="space-y-6">
           {displayedRecommendations.map((rec) => (
             <div key={rec.id} className="border border-gray-300 rounded-lg p-6 bg-gray-100 shadow-md">
               <p className="font-bold text-lg">
-                {new Date(rec.date).toLocaleDateString()} - <span className="text-gray-700">{rec.problem}</span>
+                {new Date(rec.date).toLocaleDateString()} - <span className="text-[var(--seccondary-gray)]">{rec.problem}</span>
               </p>
-              <p className="text-gray-700 mb-3">
+              <p className="text-[var(--seccondary-gray)]mb-3">
                 Kategoria: <span className="font-semibold">{rec.selectedCategory}</span>
               </p>
               {rec.meals.length > 0 ? (
                 rec.meals.map((meal, index) => (
                   <div key={index} className="mt-3">
-                    <p className="font-semibold text-gray-800">{meal.name}</p>
+                    <p className="font-semibold text-[var(--seccondary-gray-hover)]">{meal.name}</p>
                     {meal.items.length > 0 ? (
-                      <ul className="list-disc pl-6 text-gray-700 space-y-1">
+                      <ul className="list-disc pl-6 text-[var(--seccondary-gray)] space-y-1">
                         {meal.items.map((item, idx) => (
                           <li key={idx} className="ml-2">
                             <span className="font-medium">{item.food}</span> - {item.grams}g ({item.providedValue} kcal)
@@ -146,12 +149,12 @@ function Recommendation() {
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-gray-500">Brak produktów</p>
+                      <p className="text-[var(--recommendation-gray)]">Brak produktów</p>
                     )}
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500">Brak posiłków</p>
+                <p className="text-[var(--recommendation-gray)]">Brak posiłków</p>
               )}
             </div>
           ))}

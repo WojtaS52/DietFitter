@@ -14,7 +14,7 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 import Calendar from "../components/ui/calendar";
-
+import { postUserStatistics, getMe } from "../utils/api/api";
 export default function ProfilePage() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userError, setUserError] = useState<string | null>(null);
@@ -31,7 +31,8 @@ export default function ProfilePage() {
     potassium: { min: 3.5, max: 5.0 },      
     zinc: { min: 0.66, max: 1.10 },        
     calcium: { min: 8.5, max: 10.5 },       
-    bloodPressure: { min: 120, max: 80 },   
+    // bloodPressure: { min: 120, max: 80 },
+    vitaminD: { min: 30, max: 50 },   
     weight: { min: 50, max: 100 },          
   };
 
@@ -43,7 +44,8 @@ export default function ProfilePage() {
     potassium: { label: 'Poziom potasu', unit: 'mmol/l' },
     zinc: { label: 'Poziom cynku', unit: 'mg/dl' },
     calcium: { label: 'Poziom wapnia', unit: 'mg/dl' },
-    bloodPressure: { label: 'Ciśnienie tętnicze', unit: 'mmHg' },
+    // bloodPressure: { label: 'Ciśnienie tętnicze', unit: 'mmHg' },
+    vitaminD: { label: 'Poziom witaminy D', unit: 'ng/ml' },
     weight: { label: 'Waga', unit: 'kg' },
   };
   
@@ -100,6 +102,7 @@ export default function ProfilePage() {
       method: 'GET',
       credentials: 'include',
     });
+    
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -153,21 +156,8 @@ export default function ProfilePage() {
       monitoringType,
       value: parameterValue,
     };
-
+    await postUserStatistics(payload);
     
-    const response = await fetch('http://localhost:5000/api/userstats', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Nie udało się zapisać danych');
-    }
 
     setParameterValue('');
     fetchMonitoringData();

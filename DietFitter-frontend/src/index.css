@@ -15,6 +15,10 @@
   --primary-green: #008000;
   --button-green: #28a745;
   --button-green-hover: #218838;
+  --recommendation-gray: #6B7280;
+  --seccondary-gray: #374151;
+  --seccondary-gray-hover: #1F2937;
+  --diet-white: #f9f9f9;
 }
 
 body.dark-mode {

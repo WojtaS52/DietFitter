@@ -65,9 +65,9 @@ public class UserDietRecommendationController : ControllerBase
             
             var likedUserRecommendations = await _context.UserLikedRecommendations
                     .Where(l => l.UserId == userId)
-                    .Include(l => l.Recommendation) // Pobiera rekomendację
-                    .ThenInclude(r => r.Meals) // Pobiera posiłki w rekomendacji
-                    .ThenInclude(m => m.Items) // Pobiera składniki posiłków
+                    .Include(l => l.Recommendation) 
+                    .ThenInclude(r => r.Meals) 
+                    .ThenInclude(m => m.Items) 
                     .ToListAsync();
             
             return Ok(likedUserRecommendations);

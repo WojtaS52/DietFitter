@@ -23,9 +23,7 @@ namespace DietFitter_backend.Controllers
             _userDietRecommendationRepository = userDietRecommendationRepository;
         }
 
-        /// <summary>
-        /// Tworzy rekomendację diety na podstawie podanych danych użytkownika
-        /// </summary>
+        
         [HttpPost("recommend-diet")]
         public async Task<IActionResult> CreateDietRecommendation([FromBody] DietRequest request)
         {
@@ -55,21 +53,19 @@ namespace DietFitter_backend.Controllers
                         Food = i.Food,
                         Grams = i.Grams,
                         ProvidedValue = i.ProvidedValue,
-                        MealId = 0 // ❗ Wartość MealId zostanie nadana przez bazę danych
+                        MealId = 0 
                     }).ToList()
                 }).ToList()
             };
 
             await _userDietRecommendationRepository.SaveRecommendation(formatRecommendation);
 
-            return Ok(recommendation); // ✅ Zwracamy MealDto na frontend
+            return Ok(recommendation);
         }
 
-        /// <summary>
-        /// Pobiera ostatnie rekomendacje użytkownika
-        /// </summary>
+        
         [HttpGet("user-recommendations/{userId}")]
-        public async Task<IActionResult> GetUserRecommendations(string userId, [FromQuery] int limit = 5)
+        public async Task<IActionResult> GetUserRecommendations(string userId, [FromQuery] int limit = 1)
         {
             if (string.IsNullOrEmpty(userId))
             {

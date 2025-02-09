@@ -61,7 +61,7 @@ namespace DietFitter_backend.Services
                                                 .OrderBy(f => f.GlycemicIndex)
                                                 .ToList(),
                 "niedobór witaminy D" => availableFoods.OrderByDescending(f => f.VitaminD).ToList(),                          
-                "cukrzyca" => availableFoods.Where(f => f.GlycemicIndex < 50)
+                "cukrzyca" => availableFoods.Where(f => f.GlycemicIndex < 50 && f.Protein < 20 && f.Carbs < 55)
                                                 .OrderBy(f => f.GlycemicIndex)
                                                 .ToList(),
                 "odchudzanie" or "nadwaga" => availableFoods.Where(f => f.Calories < 500 && f.Protein > 10)

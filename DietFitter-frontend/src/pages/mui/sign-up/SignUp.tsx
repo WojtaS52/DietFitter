@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import CustomSnackbar from '../../../components/ui/snackbar'; 
+import { register } from '../../../utils/api/api';
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -66,22 +67,22 @@ export default function SignUp() {
       email,
       password,
     };
+    //connect to api
+    await register(payload);
+    // const response = await fetch('http://localhost:5000/register', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(payload),
+    //   credentials: 'include',
+    // });
 
-    
-    const response = await fetch('http://localhost:5000/register', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-      credentials: 'include',
-    });
-
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Register failed: ${response.status} - ${error}`);
-    }
+    // if (!response.ok) {
+    //   const error = await response.text();
+    //   throw new Error(`Register failed: ${response.status} - ${error}`);
+    // }
 
     setSnackbar({
       open: true,

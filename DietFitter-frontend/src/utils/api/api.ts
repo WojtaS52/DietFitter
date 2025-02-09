@@ -9,6 +9,9 @@ const axiosClient = axios.create({
   withCredentials: true,
 });
 
+export const register = async (data: { email: string; password: string }) =>
+  axiosClient.post("/register", data, { withCredentials: true });
+
 export const logout = async () => axiosClient.post("/api/account/logout");
 
 export const getAuthUser = async (config?: AxiosRequestConfig) =>
@@ -43,10 +46,6 @@ export const changeUserDetails = async (data: {
   dateOfBirth: Date | null;
 }) => axiosClient.post("/api/userdetails/change-details", data);
 
-// export const getLastUserRecommendation = async (userId: string) => {
-//   return await axios.get(`/api/algorithm/last-recommendation/${userId}`);
-// };
-
 export const createRecommendation = async (data: {
   userId: string;
   userWeight: number;
@@ -72,3 +71,8 @@ export const getUserRecommendations = (userId: string, limit: number = 5) => {
     `/api/DietRecommendation/user-recommendations/${userId}?limit=${limit}`
   );
 };
+
+export const postUserStatistics = async (data: {
+  monitoringType: string;
+  value: number;
+}) => axiosClient.post("/api/userstats", data);

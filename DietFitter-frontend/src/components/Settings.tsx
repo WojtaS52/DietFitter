@@ -186,7 +186,8 @@ const handleChangeUserDetails = async () => {
               />
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                style={{ backgroundColor: "var(--button-green)" }}
+                className=" text-white px-4 py-2 rounded "
               >
                 Potwierdź
               </button>
@@ -214,7 +215,8 @@ const handleChangeUserDetails = async () => {
               />
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                style={{ backgroundColor: "var(--button-green)" }}
+                className="text-white px-4 py-2 rounded"
               >
                 Potwierdź
               </button>
@@ -246,9 +248,13 @@ const handleChangeUserDetails = async () => {
                   onChange={(e) => setDateOfBirth(e.target.value ? new Date(e.target.value) : null)}
                   variant="outlined"
                   fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  inputProps={{ placeholder: " " }}
                 />
 
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Potwierdź</button>
+                <button type="submit"
+                style={{ backgroundColor: "var(--button-green)" }}
+                className=" text-white px-4 py-2 rounded">Potwierdź</button>
               </form>
             </div>
           );
@@ -294,7 +300,8 @@ const handleChangeUserDetails = async () => {
               />
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                style={{ backgroundColor: "var(--button-green)" }}
+                className=" text-white px-4 py-2 rounded "
               >
                 Potwierdź
               </button>
