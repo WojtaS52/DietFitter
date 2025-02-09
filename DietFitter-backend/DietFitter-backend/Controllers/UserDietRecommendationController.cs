@@ -22,8 +22,8 @@ public class UserDietRecommendationController : ControllerBase
         }
     
         
-        [HttpPost("like/{recommendationId}")]
-        public async Task<IActionResult> LikeRecommendation(int recommendationId)
+        [HttpPost("save/{recommendationId}")]
+        public async Task<IActionResult> SaveRecommendation(int recommendationId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             
@@ -37,7 +37,7 @@ public class UserDietRecommendationController : ControllerBase
             
             if (existingLike != null)
             {
-               return BadRequest("Polubiłeś już tę rekomendację");
+               return BadRequest("Zapisałeś już tę rekomendację");
             }
             
             var like = new UserLikedRecommendation

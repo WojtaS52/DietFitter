@@ -31,51 +31,43 @@ namespace DietFitter_backend.Services
             
             string monitoringType = dto.MonitoringType.ToLower();
             
-            if (monitoringType == "weight")
+         
+          switch (monitoringType)
             {
-                userStats.Weight = dto.Value;
-            }
-            else if (monitoringType == "bloodpressure")
-            {
-                userStats.BloodPressure = dto.Value.ToString();
-            }
-            else if (monitoringType == "iron")
-            {
-                userStats.Iron = dto.Value;
-            }
-            else if (monitoringType == "vitamind")
-            {
-                userStats.VitaminD = dto.Value;
-            }
-            else if (monitoringType == "magnesium")
-            {
-                userStats.Magnesium = dto.Value;
-            }
-            else if (monitoringType == "cholesterol")
-            {
-                userStats.Cholesterol = dto.Value;
-            }
-            else if (monitoringType == "bloodsugar")
-            {
-                userStats.BloodSugar = dto.Value;
-            }
-            else if (monitoringType == "potassium")
-            {
-                userStats.Potassium = dto.Value;
-            }
-            else if (monitoringType == "zinc")
-            {
-                userStats.Zinc = dto.Value;
-            }
-            else if (monitoringType == "calcium")
-            {
-                userStats.Calcium = dto.Value;
-            }
-            else
-            {
-                throw new ArgumentException("Nie ma takiego typu");
-            }
-        
+                case "weight":
+                    userStats.Weight = dto.Value;
+                    break;
+                case "bloodpressure":
+                    userStats.BloodPressure = dto.Value.ToString();
+                    break;
+                case "iron":
+                    userStats.Iron = dto.Value;
+                    break;
+                case "vitamind":
+                    userStats.VitaminD = dto.Value;
+                    break;
+                case "magnesium":
+                    userStats.Magnesium = dto.Value;
+                    break;
+                case "cholesterol":
+                    userStats.Cholesterol = dto.Value;
+                    break;
+                case "bloodsugar":
+                    userStats.BloodSugar = dto.Value;
+                    break;
+                case "potassium":
+                    userStats.Potassium = dto.Value;
+                    break;
+                case "zinc":
+                    userStats.Zinc = dto.Value;
+                    break;
+                case "calcium":
+                    userStats.Calcium = dto.Value;
+                    break;
+                default:
+                    throw new ArgumentException("Nie ma takiego typu");
+                    }
+            
             _context.UserStats.Add(userStats);
             await _context.SaveChangesAsync();
         
@@ -98,7 +90,6 @@ namespace DietFitter_backend.Services
                 .ToListAsync();
         }
 
-        
         public async Task<UserStats?> UpdateUserStats(Guid id, string userId, Dictionary<string, object> updates)
         {
             var stats = await _context.UserStats.FirstOrDefaultAsync(s => s.Id == id && s.UserId == userId);

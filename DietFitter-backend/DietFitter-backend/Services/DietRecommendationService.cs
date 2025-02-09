@@ -57,7 +57,7 @@ namespace DietFitter_backend.Services
                 "niedobór żelaza" => availableFoods.OrderByDescending(f => f.Iron).ToList(),
                 "niedobór potasu" => availableFoods.OrderByDescending(f => f.Potassium).ToList(),
                 "niedobór cynku" => availableFoods.OrderByDescending(f => f.Zinc).ToList(),
-                "insulinoodporność" => availableFoods.Where(f => f.GlycemicIndex < 50)
+                "insulinoodporność" => availableFoods.Where(f => f.GlycemicIndex < 50 && f.Protein < 20)
                                                 .OrderBy(f => f.GlycemicIndex)
                                                 .ToList(),
                 "niedobór witaminy D" => availableFoods.OrderByDescending(f => f.VitaminD).ToList(),                          
@@ -81,7 +81,7 @@ namespace DietFitter_backend.Services
             };
         
             
-            var topFoods = sortedFoods.Take(2).ToList();
+            var topFoods = sortedFoods.Take(3).ToList();
             var random = new Random();
             return topFoods.Any() ? topFoods[random.Next(topFoods.Count)] : null;
         }
@@ -179,18 +179,32 @@ namespace DietFitter_backend.Services
            double portionSize = (remainingCalories / 3) / product.Calories * 100;
        
            var category = product.Category;
-           if (category == "Mięso" || category == "Ryby" || category == "Jajka")
-               portionSize = Math.Min(portionSize, 300);
-           else if (category == "Orzechy" || category == "Owoce")
-               portionSize = Math.Min(portionSize, 100);
-           else if (category == "Pieczywo" || category == "Nabiał")
-               portionSize = Math.Min(portionSize, 150);
-           else if (category == "Warzywa")
-               portionSize = Math.Min(portionSize, 100);
-           else if (category == "Wegańskie")
-               portionSize = Math.Min(portionSize, 250);
-           else if (category == "Węglowodany")
-                portionSize = Math.Min(portionSize, 130);
+          
+          switch (category) 
+          {
+                case "Mięso":
+                case "Ryby":
+                case "Jajka":
+                    portionSize = Math.Min(portionSize, 300);
+                    break;
+                case "Orzechy":
+                case "Owoce":
+                    portionSize = Math.Min(portionSize, 100);
+                    break;
+                case "Pieczywo":
+                case "Nabiał":
+                    portionSize = Math.Min(portionSize, 150);
+                    break;
+                case "Warzywa":
+                    portionSize = Math.Min(portionSize, 100);
+                    break;
+                case "Wegańskie":
+                    portionSize = Math.Min(portionSize, 250);
+                    break;
+                case "Węglowodany":
+                    portionSize = Math.Min(portionSize, 130);
+                    break;
+            }
        
            return portionSize;
        }

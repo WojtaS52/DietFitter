@@ -7,7 +7,7 @@ export default function Navbar2() {
   const location = useLocation();
 
   return (
-    <Navbar style={{ backgroundColor: "#008000" }} className="text-white">
+    <Navbar style={{ backgroundColor: "var(--primary-green)" }} className="text-white">
       <Navbar.Brand as={Link} to="/home" className="cursor-pointer">
         <span className="w-full self-center whitespace-nowrap text-xl font-semibold text-white">
           Diet Fitter

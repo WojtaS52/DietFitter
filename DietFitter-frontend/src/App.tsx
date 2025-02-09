@@ -35,9 +35,6 @@ function App() {
       {/* <Toaster /> */}
       <CssBaseline />
       <Routes>
-        {/* <Toaster /> */}
-        {/* Przekierowanie z "/" na "/home" */}
-        {/* <Route path="/" element={<Navigate to="/home" replace />} /> */}
         {/* Strona główna  */}
         <Route path="/" element={<HomePage />} />
         
@@ -46,7 +43,6 @@ function App() {
         {/* Rejestracja */}
         <Route path="/signup" element={<SignUp />} />
         {/* <Route path="/welcome" element={<WelcomePage />} /> */}
-
 
         {/* Authenticated routes */}
         <Route element={<ProtectedRoute children={<Layout />} />}>

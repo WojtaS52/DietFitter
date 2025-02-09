@@ -31,8 +31,6 @@ namespace DietFitter_backend.Controllers
            return Ok(result);
        }
 
-
-
         [HttpGet]
         public async Task<IActionResult> GetUserStats()
         {

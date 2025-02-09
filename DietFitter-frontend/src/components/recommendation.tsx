@@ -91,8 +91,10 @@ function Recommendation() {
           ...meal,
           items: meal.items?.$values || []
         })) || [])
-      }));
 
+      }))
+      .sort((a: { date: string | number | Date; }, b: { date: string | number | Date; }) => new Date(b.date).getTime()- new Date(a.date).getTime());
+      // .sort((a, b) => new Date(b.date).getTime()- new Date(a.date).getTime());
       setLikedRecommendations(likedData);
     };
 

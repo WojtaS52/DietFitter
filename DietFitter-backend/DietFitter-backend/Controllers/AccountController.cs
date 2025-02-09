@@ -27,7 +27,6 @@ namespace DietFitter_backend.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            //return Ok();
             return Ok(new { message = "Wylogowano pomyślnie" });
         }
 

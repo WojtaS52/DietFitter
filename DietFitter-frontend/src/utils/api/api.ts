@@ -55,7 +55,7 @@ export const createRecommendation = async (data: {
 }) => axiosClient.post("/api/DietRecommendation/recommend-diet", data);
 
 export const likeRecommendation = async (recommendationId: number) =>
-  axiosClient.post(`/api/UserDietRecommendation/like/${recommendationId}`);
+  axiosClient.post(`/api/UserDietRecommendation/save/${recommendationId}`);
 
 export const getRecommendationLikes = async () =>
   axiosClient.get(`/api/UserDietRecommendation/liked`);

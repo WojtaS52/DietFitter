@@ -22,9 +22,6 @@ const Diet: React.FC = () => {
     setSnackbarType(null);
   };
 
-
-
-
   useEffect(() => {
     const fetchUserId = async () => {
       const response = await getAuthUser();
@@ -54,22 +51,18 @@ const Diet: React.FC = () => {
       alert("Proszę wypełnić wszystkie wymagane pola.");
       return;
     }
-
     setLoading(true);
-    try {
-      const response = await createRecommendation({
-        userId,
-        userWeight: parseFloat(userWeight),
-        userHeight: userHeight ? parseFloat(userHeight) : undefined,
-        selectedCondition,
-        preferredCategory: isVegan ? "Wegańskie" : "Wszystkie",
-      });
+    
+    const response = await createRecommendation({
+      userId,
+      userWeight: parseFloat(userWeight),
+      userHeight: userHeight ? parseFloat(userHeight) : undefined,
+      selectedCondition,
+      preferredCategory: isVegan ? "Wegańskie" : "Wszystkie",
+    });
 
-      setRecommendation(response.data);
-    } catch (error) {
-      console.error("Błąd podczas pobierania rekomendacji:", error);
-      alert("Wystąpił błąd. Spróbuj ponownie.");
-    }
+    setRecommendation(response.data);
+    
     setLoading(false);
   };
 
@@ -80,7 +73,7 @@ const Diet: React.FC = () => {
     return response.data.id;
   };
 
-  const handleLikeLastRecommendation = async () => {
+  const handleSaveLastRecommendation = async () => {
     const lastRecommendationId = await fetchLastRecommendationId();
     if (!lastRecommendationId) {
       setSnackbarMessage("Wystąpił błąd podczas polubienia rekomendacji.");
@@ -89,7 +82,7 @@ const Diet: React.FC = () => {
     }
     setLiking(true);
     await likeRecommendation(lastRecommendationId);
-    setSnackbarMessage("Rekomendacja została polubiona");
+    setSnackbarMessage("Rekomendacja została zapisana");
     setSnackbarType("success");
     setLiking(false);
   };
@@ -150,7 +143,7 @@ const Diet: React.FC = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={handleLikeLastRecommendation}
+            onClick={handleSaveLastRecommendation}
             disabled={liking}
             fullWidth
             sx={{ 

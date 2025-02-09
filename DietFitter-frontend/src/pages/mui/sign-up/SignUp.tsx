@@ -67,8 +67,11 @@ export default function SignUp() {
       email,
       password,
     };
+    
     //connect to api
     await register(payload);
+
+
     // const response = await fetch('http://localhost:5000/register', {
     //   method: 'POST',
     //   headers: {
