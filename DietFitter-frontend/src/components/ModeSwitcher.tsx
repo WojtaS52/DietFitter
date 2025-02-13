@@ -10,10 +10,8 @@ const ModeSwitcher = () => {
       useEffect(() => {
         if (darkMode) {
           document.body.classList.add("dark");
-        //   localStorage.setItem("darkMode", "true");
         } else { 
           document.body.classList.remove("dark");
-        //   localStorage.setItem("darkMode", "false");
         }
 
         localStorage.setItem("darkMode", darkMode.toString());

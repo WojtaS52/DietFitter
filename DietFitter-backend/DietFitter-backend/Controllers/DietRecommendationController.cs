@@ -3,8 +3,7 @@ using DietFitter_backend.Services;
 using DietFitter_backend.Repositories;
 using DietFitter_backend.DTO;
 using DietFitter_backend.Database;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+
 
 namespace DietFitter_backend.Controllers
 {
@@ -23,7 +22,7 @@ namespace DietFitter_backend.Controllers
             _userDietRecommendationRepository = userDietRecommendationRepository;
         }
 
-        
+        // it's the main method in controller to create diet recommendation
         [HttpPost("recommend-diet")]
         public async Task<IActionResult> CreateDietRecommendation([FromBody] DietRequest request)
         {

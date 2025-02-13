@@ -15,48 +15,7 @@ public class AlgorithmController : ControllerBase
     private readonly AlgorithmService _algorithmService;
     private readonly UserDietRecommendationRepository _userDietRecommendationRepository;
     
-    public AlgorithmController(AlgorithmService algorithmService, UserDietRecommendationRepository userDietRecommendationRepository)
-    {
-        _algorithmService = algorithmService;
-        _userDietRecommendationRepository = userDietRecommendationRepository;
-    }
     
-    
-  /*  [HttpPost("recommend-diet")]
-    public async Task<IActionResult> CreateDietAlgorithResult([FromBody] DietRequest request)
-    {
-        if (request == null)
-        {
-            return BadRequest("Nieprawidłowe dane wejściowe");
-        }
-
-        if (string.IsNullOrWhiteSpace(request.SelectedCondition))
-        {
-            return BadRequest("Nieprawidłowe dane wejściowe");
-        }
-        
-        
-        var recommendation = await _algorithmService.FitDietForProblem(request);
-        
-        if(!recommendation.Any())
-        {
-            return BadRequest("Nie znaleziono odpowiednich produktów");
-        }
-        
-        var formatRecomendation = new UserDietRecommendation()
-        {
-            UserId = request.UserId,
-            Problem = request.SelectedCondition,
-            SelectedCategory = request.PreferredCategory ?? "Wszystkie",
-            Date = DateTime.UtcNow,
-            Diet = recommendation
-            
-        };
-        await _userDietRecommendationRepository.SaveRecommendation(formatRecomendation);
-        
-        return Ok(recommendation);
-    }*/
-/*
     [HttpGet("last-recommendation/{userId}")]
     public async Task<IActionResult> GetLastUserRecommendation(string userId)
     {
@@ -65,7 +24,7 @@ public class AlgorithmController : ControllerBase
             return BadRequest("Nieprawidłowe dane wejściowe");
         }
 
-        var recommendation = await _userDietRecommendationRepository.GetLastRecommendation(userId);
+        var recommendation = await _userDietRecommendationRepository.GetUserRecommendations(userId, 1);
 
         if (recommendation == null)
         {
@@ -73,5 +32,5 @@ public class AlgorithmController : ControllerBase
         }
 
         return Ok(recommendation);
-    }*/
+    }
 }

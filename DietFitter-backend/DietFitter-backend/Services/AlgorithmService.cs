@@ -17,7 +17,7 @@ namespace DietFitter_backend.Services
             _foodProductRepository = foodProductRepository;
             _userDietRecommendationRepository = userDietRecommendationRepository;
         }
-
+        
         public async Task<List<UserDietDto>> FitDietForProblem(DietRequest request)
         {
             var foodDb = await _foodProductRepository.GetAllFoodProducts();
@@ -41,7 +41,6 @@ namespace DietFitter_backend.Services
             }
             else if (temp == "insulinoodporność")
             {
-                // wróc tu pozniej i zmien wylicz mniej wiecej
                 filtratedFood = filtratedFood.Where(f => f.GlycemicIndex < 50).OrderBy(f => f.GlycemicIndex).ToList();
             }
             else if (temp == "nadciśnienie")

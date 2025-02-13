@@ -81,7 +81,7 @@ namespace DietFitter_backend.Services
             };
         
             
-            var topFoods = sortedFoods.Take(3).ToList();
+            var topFoods = sortedFoods.Take(2).ToList();
             var random = new Random();
             return topFoods.Any() ? topFoods[random.Next(topFoods.Count)] : null;
         }
@@ -104,7 +104,7 @@ namespace DietFitter_backend.Services
         }
                 
 
-
+        //main method in service to create diet recommendation
        public async Task<List<MealDto>> FitDietForProblem(DietRequest request)
        {
            var foodDB = await _foodProductRepository.GetAllFoodProducts();

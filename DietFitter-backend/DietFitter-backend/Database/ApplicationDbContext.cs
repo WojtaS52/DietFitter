@@ -2,9 +2,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using DietFitter_backend.DTO;
 using DietFitter_backend.Models;
-
 namespace DietFitter_backend.Database;
-
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -17,12 +15,11 @@ public class ApplicationDbContext :IdentityDbContext<User>
         
     }
     
-    //public DbSet<UserStats> UserStats { get; set; } // Rejestracja nowej tabeli w bazie danych
     public DbSet<UserStats> UserStats { get; set; } 
     public DbSet<FoodProduct> FoodProducts { get; set; }
     public DbSet<Meal> Meals { get; set; }  
     public DbSet<MealItem> MealItems { get; set; } 
-    public DbSet<UserDietRecommendation> UserDietRecommendations { get; set; }
+    public DbSet<UserDietRecommendation> UserDietRecommendations { get; set; } 
     public DbSet<UserLikedRecommendation> UserLikedRecommendations { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
@@ -31,12 +28,6 @@ public class ApplicationDbContext :IdentityDbContext<User>
         builder.Entity<User>().Property(u => u.Initials).HasMaxLength(5);
         builder.HasDefaultSchema("identity");
         
-         //builder.Entity<UserStats>()
-           //         .HasOne(up => up.User)
-             //       .WithMany()
-               //     .HasForeignKey(up => up.UserId)
-                 //   .OnDelete(DeleteBehavior.Cascade);
-                 
         builder.Entity<UserStats>()
                     .HasOne(us => us.User)
                     .WithMany()
@@ -61,7 +52,6 @@ public class ApplicationDbContext :IdentityDbContext<User>
            .WithMany()
            .HasForeignKey(lr => lr.RecommendationId)
            .OnDelete(DeleteBehavior.Cascade);
-
     }
     
 }

@@ -108,8 +108,5 @@ namespace DietFitter_backend.UnitTests.Services
             await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
                 await _userStatsService.AddUserStats(dto, userId));
         }
-
-        
-       
     }
 }

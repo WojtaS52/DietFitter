@@ -1,4 +1,3 @@
-using DietFitter_backend.DTO;
 using System.Text.Json;
 using System.ComponentModel.DataAnnotations.Schema;
 

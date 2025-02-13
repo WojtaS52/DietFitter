@@ -71,8 +71,6 @@ app.UseAuthorization();
 
 app.MapControllers(); 
 
-
-// Przykładowy endpoint chroniony
 app.MapGet("users/me", async (ClaimsPrincipal claims, ApplicationDbContext context) =>
     {
         string userId = claims.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;

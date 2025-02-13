@@ -11,10 +11,9 @@ namespace DietFitter_backend.UnitTests.DTO
         [TestMethod]
         public void DietRequest_ShouldHaveCorrectDefaultValues()
         {
-            // Act
+
             var request = new DietRequest();
 
-            // Assert
             Assert.AreEqual(string.Empty, request.UserId);
             Assert.AreEqual(0, request.UserWeight);
             Assert.IsNull(request.UserHeight);
@@ -25,7 +24,6 @@ namespace DietFitter_backend.UnitTests.DTO
         [TestMethod]
         public void DietRequest_ShouldSetValuesCorrectly()
         {
-            // Act
             var request = new DietRequest
             {
                 UserId = "user123",
@@ -34,8 +32,7 @@ namespace DietFitter_backend.UnitTests.DTO
                 SelectedCondition = "odchudzanie",
                 PreferredCategory = "Wegańskie"
             };
-
-            // Assert
+            
             Assert.AreEqual("user123", request.UserId);
             Assert.AreEqual(80.5, request.UserWeight);
             Assert.AreEqual(1.75, request.UserHeight);
@@ -46,7 +43,6 @@ namespace DietFitter_backend.UnitTests.DTO
         [TestMethod]
         public void DietRequest_ShouldBeSerializable()
         {
-            // Arrange
             var request = new DietRequest
             {
                 UserId = "user456",
@@ -56,11 +52,9 @@ namespace DietFitter_backend.UnitTests.DTO
                 PreferredCategory = "Mięso"
             };
 
-            // Act
             var json = JsonSerializer.Serialize(request);
             var deserializedRequest = JsonSerializer.Deserialize<DietRequest>(json);
-
-            // Assert
+            
             Assert.IsNotNull(deserializedRequest);
             Assert.AreEqual("user456", deserializedRequest.UserId);
             Assert.AreEqual(70, deserializedRequest.UserWeight);
@@ -72,7 +66,7 @@ namespace DietFitter_backend.UnitTests.DTO
         [TestMethod]
         public void DietRequest_ShouldBeEqual_WhenSameValues()
         {
-            // Arrange
+
             var request1 = new DietRequest
             {
                 UserId = "user123",
@@ -91,7 +85,7 @@ namespace DietFitter_backend.UnitTests.DTO
                 PreferredCategory = "Nabiał"
             };
 
-            // Act & Assert
+
             Assert.AreEqual(request1.UserId, request2.UserId);
             Assert.AreEqual(request1.UserWeight, request2.UserWeight);
             Assert.AreEqual(request1.UserHeight, request2.UserHeight);
@@ -102,7 +96,6 @@ namespace DietFitter_backend.UnitTests.DTO
         [TestMethod]
         public void DietRequest_ShouldNotBeEqual_WhenDifferentValues()
         {
-            // Arrange
             var request1 = new DietRequest
             {
                 UserId = "user1",
@@ -121,7 +114,6 @@ namespace DietFitter_backend.UnitTests.DTO
                 PreferredCategory = "Mięso"
             };
 
-            // Act & Assert
             Assert.AreNotEqual(request1.UserId, request2.UserId);
             Assert.AreNotEqual(request1.UserWeight, request2.UserWeight);
             Assert.AreNotEqual(request1.UserHeight, request2.UserHeight);

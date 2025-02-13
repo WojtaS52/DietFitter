@@ -22,8 +22,7 @@ public class UserStats
              public float? BloodSugar { get; set; }
      
              public float? Cholesterol { get; set; } 
-        
-             // 7 because it can be like 120/80 for example
+             
              [MaxLength(7)]
              public string? BloodPressure { get; set; }
      

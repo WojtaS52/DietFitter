@@ -19,7 +19,7 @@ namespace DietFitter_backend.Services
             _context = context;
         }
 
-        
+        //add user stat to database (and on chart on porfile page)
         public async Task<UserStats> AddUserStats(UserStatsDto dto, string userId)
         {
             
@@ -73,7 +73,7 @@ namespace DietFitter_backend.Services
         
             return userStats;
         }
-
+        // it's used to display on the cahrt on profile page
         public async Task<List<UserStats>> GetUserStats(string userId)
         {
             return await _context.UserStats
@@ -117,7 +117,7 @@ namespace DietFitter_backend.Services
             await _context.SaveChangesAsync();
             return stats;
         }
-
+        // Get specific stat for user, function which it;s presented on profile page
         public async Task<List<object>> GetSpecificStat(string userId, string fieldName)
         {
             var statsQuery = _context.UserStats

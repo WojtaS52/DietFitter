@@ -10,12 +10,10 @@ namespace DietFitter_backend.Controllers;
 [Route("api/[controller]")]
 public class UserDetailsController :ControllerBase
 {
-    // private readonly SignInManager<User> _signInManager;
     private readonly UserManager<User> _userManager;
 
     public UserDetailsController(UserManager<User> userManager)
     {
-        // _signInManager = signInManager;
         _userManager = userManager;
     }
     

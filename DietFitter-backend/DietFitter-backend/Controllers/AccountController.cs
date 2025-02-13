@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using DietFitter_backend.Database;
 using DietFitter_backend.DTO;
 
-// [ApiController]
-// [Route("api/[controller]")]
-
 namespace DietFitter_backend.Controllers
 {
 

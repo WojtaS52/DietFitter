@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using DietFitter_backend.Database;
 using DietFitter_backend.DTO;
-using System.Security.Claims;
-using System.Threading.Tasks;
+
 
 namespace DietFitter_backend.Controllers;
 
