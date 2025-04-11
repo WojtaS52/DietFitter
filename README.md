@@ -3,7 +3,7 @@
 **DietFitter** is a web application that helps users with metabolic issues and nutrient deficiences by select the right diet products.
 
 ## Key features:
-- Progress tracking system, which allows monitorin user's parameters like weight or level of nutrient deficient ( for example iron level)
+- Progress tracking system, which allows monitoring user's parameters like weight or level of nutrient deficient ( for example iron level)
 - Personalized product recommendations based on:
   - User's weight, height and dietary goals
   - User's nutrient deficiencies
