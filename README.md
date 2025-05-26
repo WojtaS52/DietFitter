@@ -23,7 +23,7 @@
 cd DietFitter-backend
 
 # Build and run with Docker Compose
-cocker-compose up --build
+docker-compose up --build
 
 ```
 ### Frontend
